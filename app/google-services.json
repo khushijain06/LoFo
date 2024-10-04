@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "238877852678",
+    "project_id": "lofo-8f7b2",
+    "storage_bucket": "lofo-8f7b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238877852678:android:3e696363fd9b79b7ddef87",
+        "android_client_info": {
+          "package_name": "com.example.lofo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnbAUtTr_q-L9yb7Po63_RB7xhOCKSRUk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
