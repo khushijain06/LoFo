@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -45,36 +47,12 @@ fun Signup(modifier: Modifier=Modifier,navController: NavController,authViewMode
             )
             Card(
                 modifier= Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
-                    .wrapContentWidth(),
+                    .padding(8.dp)
+                    .height(40.dp)
+                    .width(50.dp)
             ) {
-                Column(
-                    modifier = modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(text = "sign up Page")
-                    Spacer(modifier = Modifier.height(16.dp))
-                    OutlinedTextField(value = email, onValueChange = {
-                        email = it
-                    },
-                        label = {
-                            Text(text = "Email")
-                        }
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(onClick = {}) {
-                    Text(text = "sign up")
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                TextButton(onClick ={ navController.navigate("log in")}) {
-                    Text(text = "Already have an account? log in")
-                }
-
+                Text(text = "Login")
             }
         }
     }
 
-}
