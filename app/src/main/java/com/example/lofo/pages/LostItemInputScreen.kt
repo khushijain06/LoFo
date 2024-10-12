@@ -1,0 +1,147 @@
+package com.example.lofo.pages
+import android.net.Uri
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.materialIcon
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
+import com.example.lofo.R
+
+import com.example.lofo.data.LostItem
+import com.example.lofo.ui.theme.black
+import com.example.lofo.ui.theme.blue
+import com.example.lofo.ui.theme.darkblue
+import com.example.lofo.ui.theme.darkgrey
+import com.example.lofo.ui.theme.red
+import com.example.lofo.ui.theme.white
+import com.example.lofo.viewmodel.LostItemViewModel
+import androidx.compose.ui.platform.LocalContext
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LostItemInputScreen(viewModel: LostItemViewModel,navHostController: NavHostController){
+  //  val navController = rememberNavController()
+    val context=LocalContext.current
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
+    var title by remember { mutableStateOf("") }
+    //launcher to pick image from gallery
+    val galleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+    ) { uri: Uri? ->
+        imageUri=uri
+    }
+Box (  modifier = Modifier
+    .fillMaxSize()
+    .background(black)) {
+    TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = darkgrey, titleContentColor = white,
+        ),
+        title = {
+            Text(text = "Add Lost Items")
+        },
+        navigationIcon = {
+            IconButton(onClick = {navHostController.navigate("Home") }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.round_arrow_back_24),
+                    contentDescription = "back"
+                )
+            }
+        }
+    )
+    Box(
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize().padding(5.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            imageUri?.let { uri ->
+                Image(
+                    painter = rememberAsyncImagePainter(model = uri),
+                    contentDescription = "Selected Image",
+                    modifier = Modifier
+                        .size(200.dp)
+                        .clip(RoundedCornerShape(16.dp)).border(2.dp,Color.Gray,
+                            RoundedCornerShape(16.dp)
+                        )
+                )
+            }
+            Spacer(modifier = Modifier.height(22.dp))
+            OutlinedTextField(
+                value = title,
+                onValueChange = { title = it },
+                label = { Text(text = "Title of Item Lost", color = red) },
+                shape = RoundedCornerShape(25.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = red,
+                    unfocusedBorderColor = Color(0xFF2E2E2E),
+                    focusedTextColor = Color(0xffffffff),
+                    unfocusedTextColor = Color(0xffffffff)
+                )
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedButton(
+                onClick = { galleryLauncher.launch("image/*") },
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = red,
+                    disabledContentColor = Color.Transparent,
+                ),
+                modifier = Modifier.padding(4.dp)
+            ) {
+                Text(
+                    text = "Add Image",
+                    fontSize = 14.sp,
+                    color = Color.White
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.padding(16.dp))
+            ElevatedButton(onClick = {
+                viewModel.addItem(LostItem(title = title, imageUrl = imageUri!!))
+                Toast.makeText(context,"Item Added",Toast.LENGTH_SHORT).show()
+                title = ""
+                imageUri = null
+            }, enabled = imageUri != null && title.isNotEmpty(),
+                elevation = ButtonDefaults.elevatedButtonElevation(6.dp),
+                colors = ButtonDefaults.elevatedButtonColors(red),
+                modifier = Modifier
+                    .padding(4.dp)
+                    .fillMaxWidth()
+            )
+            {
+                Text(text = "Submit", fontSize = 17.sp, color = white)
+            }
+        }
+    }
+}
+}

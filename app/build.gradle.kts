@@ -2,9 +2,13 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
+    id("kotlin-kapt")
 }
 
 android {
+
+
+
     namespace = "com.example.lofo"
     compileSdk = 34
 
@@ -64,6 +68,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.crashlytics.buildtools)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.room.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -71,4 +76,11 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.material3)
+    implementation(libs.coil)
+    val roomversion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomversion")
+     annotationProcessor("androidx.room:room-compiler:$roomversion")
+    kapt("androidx.room:room-compiler:$roomversion")
 }
+
