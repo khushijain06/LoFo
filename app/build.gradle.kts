@@ -79,8 +79,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.coil)
     val roomversion = "2.6.1"
-    implementation("androidx.room:room-runtime:$roomversion")
+    implementation(libs.androidx.room.runtime)
      annotationProcessor("androidx.room:room-compiler:$roomversion")
-    kapt("androidx.room:room-compiler:$roomversion")
+    kapt(libs.androidx.room.room.compiler)
+    implementation(libs.splash)
 }
 

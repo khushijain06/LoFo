@@ -1,5 +1,7 @@
 package com.example.lofo.pages
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.foundation.Image
@@ -35,15 +37,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImagePainter.State.Empty.painter
 import coil.compose.rememberAsyncImagePainter
+import com.example.lofo.R
 import com.example.lofo.data.FoundItem
 import com.example.lofo.data.LostItem
 import com.example.lofo.ui.theme.darkgrey
 import com.example.lofo.ui.theme.white
 import com.example.lofo.viewmodel.LostItemViewModel
+
 
 
 @Composable
@@ -52,7 +58,7 @@ fun LostItemDisplayScreen(modifier: Modifier,viewModel: LostItemViewModel) {
       LazyVerticalGrid(
           columns = GridCells.Fixed(2),
           modifier = modifier
-              .padding(horizontal = 8.dp, vertical = 30.dp)
+              .padding(horizontal = 8.dp, vertical = 9.dp)
               .fillMaxSize()
       ){
             items(lostItems) { item ->
@@ -81,7 +87,9 @@ fun LostItemCard(item: LostItem) {
         ) {
             // Use Coil to load the image
             Image(
-                painter = rememberAsyncImagePainter(model = item.imageUrl),
+                painter = rememberAsyncImagePainter(
+                    model = item.imageUrl,
+                ),
                 contentDescription = item.title,
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
@@ -94,7 +102,9 @@ fun LostItemCard(item: LostItem) {
                 text = item.title,
                 style = MaterialTheme.typography.titleMedium,
                 fontSize = 18.sp,
-                color = white
+                color = white,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }

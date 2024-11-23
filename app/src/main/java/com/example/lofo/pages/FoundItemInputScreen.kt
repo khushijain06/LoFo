@@ -1,5 +1,7 @@
 package com.example.lofo.pages
 
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -33,6 +35,12 @@ import com.example.lofo.ui.theme.red
 import com.example.lofo.ui.theme.white
 import com.example.lofo.viewmodel.FoundItemViewModel
 
+
+
+
+
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FoundItemInputScreen(viewModel: FoundItemViewModel,navHostController: NavHostController) {
@@ -44,7 +52,12 @@ fun FoundItemInputScreen(viewModel: FoundItemViewModel,navHostController: NavHos
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
     ) { uri: Uri? ->
-        imageUri = uri
+        if(uri != null) {
+            imageUri = uri
+        }
+        else {
+            Toast.makeText(context,"No Image Selected!!",Toast.LENGTH_SHORT).show()
+        }
     }
 
     Box(
@@ -87,7 +100,12 @@ fun FoundItemInputScreen(viewModel: FoundItemViewModel,navHostController: NavHos
                             .clip(RoundedCornerShape(16.dp))
                             .border(2.dp, Color.Gray, RoundedCornerShape(16.dp))
                     )
-                }
+                }?: Text( // Fallback text if no image is selected
+                    text = "No image selected",
+                    color = Color.Gray,
+                    modifier = Modifier.padding(16.dp)
+                )
+
                 Spacer(modifier = Modifier.height(22.dp))
                 OutlinedTextField(
                     value = title,
@@ -120,11 +138,15 @@ fun FoundItemInputScreen(viewModel: FoundItemViewModel,navHostController: NavHos
                 Spacer(modifier = Modifier.height(16.dp))
                 Spacer(modifier = Modifier.padding(16.dp))
                 ElevatedButton(
-                    onClick = {
-                        viewModel.addItem(FoundItem(title= title,imageUrl = imageUri!!))
-                        Toast.makeText(context, "Item Added", Toast.LENGTH_SHORT).show()
-                        title = ""
-                        imageUri = null
+                        onClick = {
+                            if (imageUri != null && title.isNotEmpty()) {
+                                viewModel.addItem(FoundItem(title = title, imageUrl = imageUri!!))
+                                Toast.makeText(context, "Item Added", Toast.LENGTH_SHORT).show()
+                            title = ""
+                            imageUri = null
+                        }else {
+                                Toast.makeText(context, "Please select an image", Toast.LENGTH_SHORT).show()
+                            }
                     }, enabled = imageUri != null && title.isNotEmpty(),
                     elevation = ButtonDefaults.elevatedButtonElevation(6.dp),
                     colors = ButtonDefaults.elevatedButtonColors(blue),

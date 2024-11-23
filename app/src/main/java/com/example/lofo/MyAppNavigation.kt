@@ -1,11 +1,14 @@
 package com.example.lofo
 
+import android.app.Application
 import androidx .compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
+import com.example.lofo.db.Database
 import com.example.lofo.pages.FoundItemInputScreen
 import com.example.lofo.pages.Home
 import com.example.lofo.pages.Login
@@ -21,6 +24,7 @@ fun MyAppNavigation (modifier: Modifier=Modifier, authViewModel: AuthViewModel){
     val navController=rememberNavController()
     val LviewModel: LostItemViewModel = viewModel()
     val FviewModel: FoundItemViewModel = viewModel()
+
     NavHost(navController=navController,startDestination="login",builder={
         composable("login"){
             Login(modifier,navController,authViewModel)

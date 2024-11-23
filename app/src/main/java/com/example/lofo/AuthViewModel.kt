@@ -13,6 +13,7 @@ class  AuthViewModel:ViewModel(){
                 checkAuthStatus()
             }
 fun checkAuthStatus(){
+    _authState.value = AuthState.Loading
      if(auth.currentUser==null){
          _authState.value= AuthState.Unauthenticated
      }else{
@@ -22,6 +23,7 @@ fun checkAuthStatus(){
     fun login(email:String, password:String){
         if(email.isEmpty()||password.isEmpty()){
             _authState.value=AuthState.Error("Email or password can't be empty")
+            return
         }
         _authState.value= AuthState.Loading
         auth.signInWithEmailAndPassword(email,password)
@@ -37,6 +39,7 @@ fun checkAuthStatus(){
     fun signup(email:String, password:String){
         if(email.isEmpty()||password.isEmpty()){
             _authState.value=AuthState.Error("Email or password can't be empty")
+            return
         }
         _authState.value= AuthState.Loading
         auth.createUserWithEmailAndPassword(email,password)

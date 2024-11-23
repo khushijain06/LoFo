@@ -10,22 +10,24 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.lofo.MainApplication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 class LostItemViewModel : ViewModel() {
-    val lostDao=MainApplication.database.getLostDao()
-    val imageList : LiveData<List<LostItem>> = lostDao.getAllostItems()
+    private val lostDao = MainApplication.database.getLostDao()
+    val imageList: LiveData<List<LostItem>> = lostDao.getAllostItems()
 
-    fun addItem(item: LostItem){
-        viewModelScope.launch (Dispatchers.IO){
+    fun addItem(item: LostItem) {
+        viewModelScope.launch(Dispatchers.IO) {
             lostDao.addLostItem(item)
         }
     }
-    fun deleteLostItem(id: Int){
-        viewModelScope.launch (Dispatchers.IO){
+
+    fun deleteLostItem(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
             lostDao.deleteLostItem(id)
         }
     }
 }
+
